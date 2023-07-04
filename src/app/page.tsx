@@ -20,8 +20,8 @@ export default async function Home() {
 
         {/* community info */}
         <div className="overflow-hidden h-fit rounded-lg border order-first md:order-last shadow-sm bg-gray-50 dark:bg-slate-800 border-gray-200 dark:border-gray-700">
-          <div className="bg-cyan-100 dark:bg-cyan-500 px-6 py-4">
-            <p className="font-semibold py-3 flex items-center gap-1.5 text-gray-900 ">
+          <div className="bg-emerald-100 dark:bg-emerald-500 px-6 py-4">
+            <p className="font-semibold py-3 flex items-center gap-1.5 text-gray-900">
               <HomeIcon className="w-4 h-4" />
               Home
             </p>

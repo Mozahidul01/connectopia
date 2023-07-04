@@ -1,53 +1,49 @@
 "use client";
 
 import { useCustomToast } from "@/hooks/use-custom-toast";
-import { usePrevious } from "@mantine/hooks";
-import { VoteType } from "@prisma/client";
-import { FC, useEffect, useState } from "react";
-import { Button } from "../ui/Button";
-import { cn } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
-import { PostVoteRequest } from "@/lib/validators/vote";
-import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
-import { ThumbsUpIcon, ThumbsDownIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { usePrevious } from "@mantine/hooks";
+import { CommentVote, VoteType } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useState } from "react";
+import { Button } from "./ui/Button";
+import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
+import { CommentVoteRequest } from "@/lib/validators/vote";
 
-interface PostVoteClientProps {
-  postPage?: boolean;
-  postId: string;
+interface CommentVotesProps {
+  commentId: string;
   initialVotesAmt: number;
-  initialVote?: VoteType | null;
+  initialVote?: Pick<CommentVote, "type"> | null;
 }
 
-const PostVoteClient: FC<PostVoteClientProps> = ({
-  postPage,
-  postId,
+const CommentVotes = ({
+  commentId,
   initialVotesAmt,
   initialVote,
-}) => {
+}: CommentVotesProps) => {
   const { loginToast } = useCustomToast();
   const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt);
   const [currentVote, setCurrentVote] = useState(initialVote);
   const prevVote = usePrevious(currentVote);
 
-  // ensure sync with server
-  useEffect(() => {
-    setCurrentVote(initialVote);
-  }, [initialVote]);
-
   const { mutate: vote } = useMutation({
     mutationFn: async (voteType: VoteType) => {
-      const payload: PostVoteRequest = {
-        postId,
+      const payload: CommentVoteRequest = {
+        commentId,
         voteType,
       };
 
-      await axios.patch("/api/community/post/vote", payload);
+      await axios.patch("/api/community/post/comment/vote", payload);
     },
 
     onError: (err, voteType) => {
-      if (voteType === "UP") setVotesAmt((prev) => prev - 1);
-      else setVotesAmt((prev) => prev + 1);
+      if (voteType === "UP") {
+        setVotesAmt((prev) => prev - 1);
+      } else {
+        setVotesAmt((prev) => prev + 1);
+      }
 
       // reset current vote
       setCurrentVote(prevVote);
@@ -65,15 +61,15 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
       });
     },
 
-    onMutate: (type: VoteType) => {
-      if (currentVote === type) {
+    onMutate: (type) => {
+      if (currentVote?.type === type) {
         // User is voting the same way again, so remove their vote
         setCurrentVote(undefined);
         if (type === "UP") setVotesAmt((prev) => prev - 1);
         else if (type === "DOWN") setVotesAmt((prev) => prev + 1);
       } else {
         // User is voting in the opposite direction, so subtract 2
-        setCurrentVote(type);
+        setCurrentVote({ type });
         if (type === "UP") setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
         else if (type === "DOWN")
           setVotesAmt((prev) => prev - (currentVote ? 2 : 1));
@@ -82,11 +78,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
   });
 
   return (
-    <div
-      className={cn("flex flex-col pr-4 sm:w-20 gap-4 items-center", {
-        "flex-row sm:flex-col pb-4": postPage === true,
-      })}
-    >
+    <div className="flex gap-1">
       <Button
         size="sm"
         variant="ghost"
@@ -94,8 +86,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         onClick={() => vote("UP")}
       >
         <ThumbsUpIcon
-          className={cn("h-6 w-6", {
-            "text-emerald-500 fill-emerald-500": currentVote === "UP",
+          className={cn("h-5 w-5", {
+            "text-emerald-500 fill-emerald-500": currentVote?.type === "UP",
           })}
         />
       </Button>
@@ -111,8 +103,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         onClick={() => vote("DOWN")}
       >
         <ThumbsDownIcon
-          className={cn("h-6 w-6", {
-            "text-red-500 fill-red-500": currentVote === "DOWN",
+          className={cn("h-5 w-5", {
+            "text-red-500 fill-red-500": currentVote?.type === "DOWN",
           })}
         />
       </Button>
@@ -120,4 +112,4 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
   );
 };
 
-export default PostVoteClient;
+export default CommentVotes;

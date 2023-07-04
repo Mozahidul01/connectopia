@@ -81,6 +81,7 @@ const style = {
     listItem: {
       paddingTop: "0.5rem",
       marginLeft: "0.725rem",
+      fontSize: "0.875rem",
     },
   },
   table: {

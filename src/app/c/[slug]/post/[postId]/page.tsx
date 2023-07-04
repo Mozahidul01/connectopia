@@ -1,3 +1,4 @@
+import CommentSection from "@/components/CommentSection";
 import EditorOutput from "@/components/EditorOutput";
 import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import { buttonVariants } from "@/components/ui/Button";
@@ -6,7 +7,13 @@ import { redis } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
 import { CachedPost } from "@/types/redis";
 import { Post, User, Vote } from "@prisma/client";
-import { ArrowBigDown, ArrowBigUp, Loader2 } from "lucide-react";
+import {
+  ArrowBigDown,
+  ArrowBigUp,
+  Loader2,
+  ThumbsDownIcon,
+  ThumbsUpIcon,
+} from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -71,6 +78,14 @@ const page = async ({ params }: PageProps) => {
           </h1>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
+
+          <Suspense
+            fallback={
+              <Loader2 className="h-5 w-5 animate-spin text-gray-500" />
+            }
+          >
+            <CommentSection postId={post?.id ?? cachedPost.id} />
+          </Suspense>
         </div>
       </div>
     </div>
@@ -81,7 +96,7 @@ function PostVoteShell() {
   return (
     <div className="flex flex-col pr-4 sm:w-20 gap-4 justify-start items-center">
       <div className={buttonVariants({ variant: "ghost" })}>
-        <ArrowBigUp className="h-7 w-7" />
+        <ThumbsUpIcon className="h-6 w-6" />
       </div>
 
       <div className="text-center py-2 font-medium text-sm text-gray-900 dark:text-gray-50">
@@ -89,7 +104,7 @@ function PostVoteShell() {
       </div>
 
       <div className={buttonVariants({ variant: "ghost" })}>
-        <ArrowBigDown className="h-7 w-7" />
+        <ThumbsDownIcon className="h-6 w-6" />
       </div>
     </div>
   );

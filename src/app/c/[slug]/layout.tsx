@@ -1,11 +1,10 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { format } from "date-fns";
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { format } from "date-fns";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Community",
@@ -78,23 +77,23 @@ const Layout = async ({
               </p>
             </div>
 
-            <dl className="divide-y divide-gray-100 dark:divide-gray-700 px-6 py-4 text-sm leading-6 bg-white dark:bg-gray-800">
+            <div className="divide-y divide-gray-100 dark:divide-gray-700 px-6 py-4 text-sm leading-6 bg-white dark:bg-gray-800">
               <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500 dark:text-gray-200">Created</dt>
-                <dd className="text-gray-700 dark:text-gray-300">
+                <div className="text-gray-500 dark:text-gray-200">Created</div>
+                <div className="text-gray-700 dark:text-gray-300">
                   <time dateTime={community?.createdAt.toDateString()}>
                     {formattedCreatedAt}
                   </time>
-                </dd>
+                </div>
               </div>
 
               <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500 dark:text-gray-200">Members</dt>
-                <dd className="text-gray-700 dark:text-gray-300">
+                <div className="text-gray-500 dark:text-gray-200">Members</div>
+                <div className="text-gray-700 dark:text-gray-300">
                   <div className="text-gray-900 dark:text-gray-100">
                     {memberOfCommunity}
                   </div>
-                </dd>
+                </div>
               </div>
 
               {community?.creatorId === session?.user?.id && (
@@ -124,7 +123,7 @@ const Layout = async ({
                   Create Post
                 </Link>
               )}
-            </dl>
+            </div>
           </div>
         </div>
       </div>
