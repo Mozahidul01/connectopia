@@ -5,6 +5,7 @@ import { Icons } from "./Icons";
 import { buttonVariants } from "./ui/Button";
 import { UserAccountNav } from "./UserAccountNav";
 import ThemeSwitch from "@/hooks/use-theme";
+import SearchBar from "./SearchBar";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
@@ -22,11 +23,10 @@ const Navbar = async () => {
           </p>
         </Link>
 
-        {/* search bar */}
+        <SearchBar />
 
         <div className="flex gap-4 items-center">
           <ThemeSwitch />
-
           {session?.user ? (
             <UserAccountNav user={session.user} />
           ) : (
