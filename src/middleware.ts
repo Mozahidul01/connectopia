@@ -8,9 +8,13 @@ export async function middleware(req: NextRequest) {
   if (!token) {
     return NextResponse.redirect(new URL("/sign-in", req.nextUrl));
   }
+
+  if (token && req.nextUrl.pathname.includes("/sign-in")) {
+    return NextResponse.redirect(new URL("/", req.nextUrl));
+  }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/r/:path*/submit", "/r/create"],
+  matcher: ["/c/:path*/submit", "/c/create"],
 };
