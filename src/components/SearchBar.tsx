@@ -36,7 +36,6 @@ const SearchBar = () => {
   }, [request]);
 
   const {
-    isFetching,
     data: queryResults,
     refetch,
     isFetched,

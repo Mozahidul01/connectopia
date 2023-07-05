@@ -8,7 +8,7 @@ import { CommentVote, VoteType } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { CommentVoteRequest } from "@/lib/validators/vote";
 

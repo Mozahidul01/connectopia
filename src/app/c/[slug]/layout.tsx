@@ -5,6 +5,8 @@ import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { cn } from "@/lib/utils";
+import { ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Community",
@@ -63,8 +65,17 @@ const Layout = async ({
 
   return (
     <div className="sm:container max-w-7xl mx-auto h-full">
-      <div className="">
-        {/* Todo:Button to take us back */}
+      <div className="my-2">
+        <Link
+          href="/"
+          className={cn(
+            buttonVariants({ variant: "ghost" }),
+            "self-start -mt-20"
+          )}
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Back
+        </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
           <div className="flex flex-col col-span-2 space-y-6">{children}</div>

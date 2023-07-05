@@ -1,11 +1,11 @@
 "use client";
 
 import { startTransition, useState } from "react";
-import { Label } from "./ui/Label";
-import { Textarea } from "./ui/Textarea";
-import { Button } from "./ui/Button";
+import { Label } from "../ui/Label";
+import { Textarea } from "../ui/Textarea";
+import { Button } from "../ui/Button";
 import { useMutation } from "@tanstack/react-query";
-import { CommentCreationRequest } from "../lib/validators/comment";
+import { CommentCreationRequest } from "../../lib/validators/comment";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useCustomToast } from "@/hooks/use-custom-toast";

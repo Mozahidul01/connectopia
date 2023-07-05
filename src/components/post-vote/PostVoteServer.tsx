@@ -1,7 +1,7 @@
 import { Post, Vote, VoteType } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import PostVoteClient from "./PostVoteClient";
+import { getAuthSession } from "@/lib/auth";
 
 interface PostVoteServerProps {
   postPage?: boolean;
@@ -18,7 +18,7 @@ const PostVoteServer = async ({
   initialVote,
   getData,
 }: PostVoteServerProps) => {
-  const session = await getServerSession();
+  const session = await getAuthSession();
 
   let _voteAmt: number = 0;
   let _currentVote: VoteType | null | undefined = undefined;
