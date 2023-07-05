@@ -6,6 +6,7 @@ import { buttonVariants } from "./ui/Button";
 import { UserAccountNav } from "./UserAccountNav";
 import ThemeSwitch from "@/hooks/use-theme";
 import SearchBar from "./SearchBar";
+import { cn } from "../lib/utils";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
@@ -25,14 +26,14 @@ const Navbar = async () => {
 
         <SearchBar />
 
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 items-center">
           <ThemeSwitch />
           {session?.user ? (
             <UserAccountNav user={session.user} />
           ) : (
             <Link
               href="/sign-in"
-              className={buttonVariants()}
+              className={cn(buttonVariants(), "min-w-[5rem]")}
             >
               Sign In
             </Link>

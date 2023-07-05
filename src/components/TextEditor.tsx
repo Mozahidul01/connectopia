@@ -186,7 +186,7 @@ const TextEditor: FC<TextEditorProps> = ({ communityId }) => {
   const { ref: titleRef, ...rest } = register("title");
 
   return (
-    <div className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div className="w-full p-4 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-lg border border-gray-200 dark:border-gray-700">
       <form
         id="community-post-form"
         className="w-fit"
@@ -197,7 +197,7 @@ const TextEditor: FC<TextEditorProps> = ({ communityId }) => {
             ref={(e) => {
               titleRef(e);
 
-              //@ts-ignore
+              // @ts-ignore
               _titleRef.current = e;
             }}
             {...rest}

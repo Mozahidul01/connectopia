@@ -13,6 +13,17 @@
   border-color: theme('colors.border');
 }
 
+.dark .ce-popover-item {
+  color: theme('colors.accent.foreground');
+}
+
+.dark .ce-popover-item__icon {
+  color: theme('colors.popover.DEFAULT');
+}
+
+.dark .ce-popover-item:hover {
+  color: theme('colors.popover.DEFAULT');
+}
 .dark .ce-inline-tool,
 .dark .ce-conversion-toolbar__label,
 .dark .ce-toolbox__button,
@@ -24,6 +35,7 @@
 .dark .ce-popover__item-icon,
 .dark .ce-conversion-tool__icon {
   background-color: theme('colors.muted.DEFAULT');
+
   box-shadow: none;
 }
 
@@ -44,7 +56,6 @@
 .dark .cdx-button:hover,
 .dark .ce-inline-toolbar__dropdown:hover,
 .dark .ce-inline-tool:hover,
-.dark .ce-popover__item:hover,
 .dark .ce-conversion-tool:hover,
 .dark .ce-toolbar__settings-btn:hover {
   background-color: theme('colors.accent.DEFAULT');
@@ -58,6 +69,7 @@
 .dark .cdx-notify__cross::after,
 .dark .cdx-notify__cross::before {
   background: white;
+  color: #2b2b2b;
 }
 
 .codex-editor__redactor {

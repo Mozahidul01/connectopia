@@ -71,7 +71,10 @@ export function UserNameForm({ user }: UserNameFormProps) {
   });
 
   return (
-    <form onSubmit={handleSubmit((e) => updateUsername(e))}>
+    <form
+      className="max-w-[336px] sm:max-w-2xl md:max-w-4xl"
+      onSubmit={handleSubmit((e) => updateUsername(e))}
+    >
       <Card className="mt-8">
         <CardHeader>
           <CardTitle>Your username</CardTitle>
@@ -94,7 +97,7 @@ export function UserNameForm({ user }: UserNameFormProps) {
             </Label>
             <Input
               id="name"
-              className="w-[400px] pl-7"
+              className="w-[290px] sm:w-[400px] pl-7"
               size={32}
               {...register("name")}
             />

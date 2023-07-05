@@ -7,15 +7,11 @@ import { redis } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
 import { CachedPost } from "@/types/redis";
 import { Post, User, Vote } from "@prisma/client";
-import {
-  ArrowBigDown,
-  ArrowBigUp,
-  Loader2,
-  ThumbsDownIcon,
-  ThumbsUpIcon,
-} from "lucide-react";
+import { Loader2, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import PostMoreDropdown from "@/components/PostMoreDropdown";
+import { getAuthSession } from "@/lib/auth";
 
 interface PageProps {
   params: {
@@ -27,6 +23,8 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 const page = async ({ params }: PageProps) => {
+  const session = await getAuthSession();
+
   const cachedPost = (await redis.hgetall(
     `post:${params.postId}`
   )) as CachedPost;
@@ -68,11 +66,19 @@ const page = async ({ params }: PageProps) => {
         </Suspense>
 
         <div className="sm:w-0 w-full flex-1 p-4 rounded-sm bg-white dark:bg-gray-900">
-          <p className="max-h-40 mt-1 truncate text-xs text-gray-500 dark:text-gray-400">
-            Posted by u/{post?.author.username ?? cachedPost.authorUsername}
-            {" • "}
-            {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="max-h-40 mt-1 truncate text-xs text-gray-500 dark:text-gray-400">
+              Posted by u/{post?.author.username ?? cachedPost.authorUsername}
+              {" • "}
+              {formatTimeToNow(
+                new Date(post?.createdAt ?? cachedPost.createdAt)
+              )}
+            </p>
+            {session?.user?.username ===
+              (post?.author.username ?? cachedPost.authorUsername) && (
+              <PostMoreDropdown />
+            )}
+          </div>
           <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900 dark:text-gray-50">
             {post?.title ?? cachedPost.title}
           </h1>

@@ -82,10 +82,10 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
               callbackUrl: `${window.location.origin}/sign-in`,
             });
           }}
-          className="cursor-pointer bg-red-400 dark:hover:bg-red-600 dark:text-gray-100"
+          className="group cursor-pointer dark:hover:bg-slate-950 dark:hover:text-white "
         >
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Sign out</span>
+          <LogOut className="mr-2 h-4 w-4 group-hover:text-red-500" />
+          <span className="group-hover:text-red-500">Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
