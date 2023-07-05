@@ -1,6 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { CommunityValidator } from "@/lib/validators/community";
+import { PostValidator } from "@/lib/validators/post";
 import { z } from "zod";
 
 export async function POST(req: Request) {
@@ -12,31 +13,30 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name } = CommunityValidator.parse(body);
+    const { title, content, communityId } = PostValidator.parse(body);
 
-    const communityExists = await db.community.findFirst({
-      where: { name: name },
+    // verify user is subscribed to passed subreddit id
+    const subscription = await db.subscription.findFirst({
+      where: {
+        communityId,
+        userId: session.user.id,
+      },
     });
 
-    if (communityExists) {
-      return new Response("Community already exists", { status: 409 });
+    if (!subscription) {
+      return new Response("Subscribe to post", { status: 403 });
     }
 
-    const community = await db.community.create({
+    const post = await db.post.create({
       data: {
-        name: name,
-        creatorId: session.user.id,
+        title,
+        content,
+        authorId: session.user.id,
+        communityId,
       },
     });
 
-    await db.subscription.create({
-      data: {
-        userId: session.user.id,
-        communityId: community.id,
-      },
-    });
-
-    return new Response(community.name);
+    return new Response(JSON.stringify(post), { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });

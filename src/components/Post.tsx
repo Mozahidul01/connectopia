@@ -60,19 +60,19 @@ const Post: FC<PostProps> = ({
             <h1 className="text-lg font-semibold py-2 leading-6 text-slate-900 dark:text-white">
               {post.title}
             </h1>
+
+            <div
+              className="text-sm max-h-[160px] w-full overflow-clip"
+              ref={pRef}
+            >
+              <EditorOutput content={post.content} />
+
+              {pRef.current?.clientHeight === 160 && (
+                // blur bottom if content is too long
+                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white dark:from-zinc-800 to-transparent" />
+              )}
+            </div>
           </a>
-
-          <div
-            className="text-sm max-h-40 w-full overflow-clip"
-            ref={pRef}
-          >
-            <EditorOutput content={post.content} />
-
-            {pRef.current?.clientHeight === 150 ? (
-              // blur bottom if content is too long
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white/80 dark:from-slate-800/80 to-transparent" />
-            ) : null}
-          </div>
         </div>
       </div>
 
