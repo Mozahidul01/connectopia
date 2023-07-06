@@ -17,6 +17,7 @@ const Navbar = async () => {
         <Link
           href="/"
           className="flex gap-2 items-center"
+          aria-label="logo"
         >
           <Icons.logo className="h-10 w-10 sm:h-8 sm:w-8" />
           <p className="hidden text-2xl font-semibold md:block text-gray-800 dark:text-gray-100">

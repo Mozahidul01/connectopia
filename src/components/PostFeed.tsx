@@ -50,7 +50,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, communityName }) => {
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
 
   return (
-    <ul className="fex flex-col col-span-2 space-y-6">
+    <div className="fex flex-col col-span-2 space-y-6">
       {posts.map((post, index) => {
         const voteAmt = post.votes.reduce((acc, vote) => {
           if (vote.type === "UP") return acc + 1;
@@ -64,7 +64,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, communityName }) => {
 
         if (index === posts.length - 1) {
           return (
-            <li
+            <div
               key={post.id}
               ref={ref}
             >
@@ -75,7 +75,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, communityName }) => {
                 communityName={post.community?.name ?? ""}
                 commentAmt={post.comments.length}
               />
-            </li>
+            </div>
           );
         } else {
           return (
@@ -90,7 +90,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, communityName }) => {
           );
         }
       })}
-    </ul>
+    </div>
   );
 };
 

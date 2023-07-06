@@ -68,6 +68,7 @@ const SearchBar = () => {
         value={input}
         className="outline-none border-none focus:border-none focus:outline-none ring-0"
         placeholder="Search communities..."
+        aria-label="Search communities"
       />
 
       {input.length > 0 && (
